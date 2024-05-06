@@ -1,0 +1,27 @@
+name,level,damageDice,diceFaces
+Acid Arrow,2,4,4
+Black Tentacles,4,3,6
+Circle of death,6,2,6
+Earthquake,8,1,6
+Fire Storm,7,7,10
+Flame Strike,5,4,6
+Harm,6,14,6
+Thunderwave,1,1,8
+Wall of Fire,4,5,8
+Sunburst,8,12,6
+Sunbeam,6,6,8
+Vampiric Touch,3,1,6
+Burning Hands,1,1,6
+Finger of death,3,7,8
+Fire Ball,3,8,6
+Tsunami,9,2,9
+Inflict Wounds,2,3,10
+Scorching Ray,2,6,6
+Dissonant Whispers,1,3,6
+Magic Missile,1,1,4
+Lightning Bolt,3,8,6
+Finger of Death,7,7,8
+Sword of Vengeance,7,6,8
+Disintegrate,9,4,8
+Meteor Swarm,7,7,2
+Time Stop,4,0,1
