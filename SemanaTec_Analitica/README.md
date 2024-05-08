@@ -1,0 +1,1 @@
+Este trabajo fue realizado durante la Semana Tec (semana 12 del cuarto semestre de la carrera), en donde aprendí a analizar datos y crear gráficos a partir de csv. Esto llevo a una buen análisis y comprensión de los mismos.
