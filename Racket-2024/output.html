@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Input File</title>
+</head>
+<body>
+<pre>
+<span style="color:fuchsia;">def</span> <span style="color:black;">fibonacci</span> <span style="color:gray;">(</span> <span style="color:black;">n</span> <span style="color:gray;">)</span> <span style="color:purple;">:</span> <br>
+<span style="color:black;">fib_sequence</span> <span style="color:aqua;">=</span> <span style="color:gray;">[</span> <span style="color:orange;">0</span> <span style="color:purple;">,</span> <span style="color:orange;">1</span> <span style="color:gray;">]</span> <br>
+<span style="color:blue;">for</span> <span style="color:black;">i</span> <span style="color:fuchsia;">in</span> <span style="color:fuchsia;">range</span> <span style="color:gray;">(</span> <span style="color:orange;">2</span> <span style="color:purple;">,</span> <span style="color:black;">n</span> <span style="color:gray;">)</span> <span style="color:purple;">:</span> <br>
+<span style="color:black;">fib_sequence</span> <span style="color:purple;">.</span> <span style="color:black;">append</span> <span style="color:gray;">(</span> <span style="color:black;">fib_sequence</span> <span style="color:gray;">[</span> <span style="color:orange;">-1</span> <span style="color:gray;">]</span> <span style="color:green;">+</span> <span style="color:black;">fib_sequence</span> <span style="color:gray;">[</span> <span style="color:orange;">-2</span> <span style="color:gray;">]</span> <span style="color:gray;">)</span> <br>
+<span style="color:fuchsia;">return</span> <span style="color:black;">fib_sequence</span> <br>
+<br>
+<span style="color:black;">n</span> <span style="color:aqua;">=</span> <span style="color:orange;">10</span> <br>
+<span style="color:black;">fib_sequence</span> <span style="color:aqua;">=</span> <span style="color:black;">fibonacci</span> <span style="color:gray;">(</span> <span style="color:black;">n</span> <span style="color:gray;">)</span> <br>
+<span style="color:blue;">for</span> <span style="color:black;">num</span> <span style="color:fuchsia;">in</span> <span style="color:black;">fib_sequence</span> <span style="color:purple;">:</span> <br>
+<span style="color:fuchsia;">print</span> <span style="color:gray;">(</span> <span style="color:black;">num</span> <span style="color:gray;">)</span> 
+</pre>
+<div style='background-color: black; color: white; padding: 10px;'><pre>
+Consola:
+Lexico sin errores sintacticos
+</pre></div>
+</body>
+</html>

@@ -1,0 +1,174 @@
+#lang racket
+;ALEXIS CHAVEZ JUAREZ A01657486
+;BRUNO CONTRERAS SILVA A01657766
+;ANDRES TAVERA MIHAILIDE A01657332
+;DIEGO ROQUE DE ROSAS A01657709
+
+;Importacion de paquetes
+(require racket/port)
+(require parser-tools/yacc
+         parser-tools/lex
+         (prefix-in : parser-tools/lex-sre))
+
+;Definición de los nombres de los tokens unicos de cada categoria lexica
+(define-tokens value-tokens (ENTERO REAL ASIGNACION SUMA RESTA MULTIPLICACION DIVISION POTENCIA VARIABLE PARENTESISABRE PARENTESISCIERRA LLAVEABRE
+   LLAVECIERRA SIMPLECOMILLA DOBLECOMILLA COMENTARIO ERROR FALSE NONE TRUE AND AS ASSERT ASYNC AWAIT BREAK CLASS CONTINUE DEF DEL ELIF ELSE EXCEPT FINALLY FOR FROM
+   GLOBAL IF IMPORT IN IS LAMBDA NONLOCAL NOT OR PASS RAISE RETURN TRY WHILE WITH YIELD DIVISION_ENTERA MODULO IGUAL_A NO_ES_IGUAL_A MAYOR_QUE MENOR_QUE MAYOR_O_IGUAL_A MENOR_O_IGUAL_A BYTEARRAY
+   BYTES COMPLEX DICT FROZENSET LIST SET TUPLE RANGE INIT MAIN NAME DOC FILE DICT_ATRIBUTO SELF 
+   SUPER STR INT FLOAT BOOL OPEN PRINT INPUT LEN ENUM PROPERTY SLICE FORMAT FORMAT_MAP GET GETATTR HASATTR HEX ID INDEX INSERT ITEMS KEYS 
+   JOIN LOWER LSTRIP POP POPITEM REPLACE RSPLIT SPLIT STARTSWITH SIGNO_AND SIGNO_OR SIGNO_XOR MARCADOR_DE_VARIABLE STRIP 
+   SWAPCASE TITLE UPPER VALUES ZFILL DOS_PUNTOS COMA SUMA_Y_ASIGNACION RESTA_Y_ASIGNACION MULTIPLICACION_Y_ASIGNACION DIVISION_Y_ASIGNACION MODULO_Y_ASIGNACION POTENCIA_Y_ASIGNACION
+   DIVISION_ENTERA_Y_ASIGNACION PUNTO BRACKETABRE BRACKETCIERRA INTERROGACIONCIERRA INTERROGACIONABRE EXCLAMACIONABRE EXCLAMACIONCIERRA))
+(define-empty-tokens op-tokens (newline = + - * / ^ EOF))
+
+;Definición de las letras, numeros y otros caracteres para la creacion de tokens unicos
+(define-lex-abbrevs
+  [var_symbs     (:or (:or (:/ "a" "z") (:/ #\A #\Z) ) (:+ "_"))]
+  [digit      (:/ #\0 #\9)]
+  [accented_vowels (:or "á" "é" "í" "ó" "ú" "Á" "É" "Í" "Ó" "Ú")])
+
+;Definición de las 134 categorias lexicas y del error
+(define lexerAritmetico
+  (lexer
+   [(eof) 'EOF]
+   [(:or #\tab #\space) (lexerAritmetico input-port)]
+   [#\newline (token-newline)]
+   ["." (token-PUNTO (string->symbol lexeme))]
+   ["=" (token-ASIGNACION (string->symbol lexeme))]
+   ["+" (token-SUMA (string->symbol lexeme))]
+   ["-" (token-RESTA (string->symbol lexeme))]
+   ["*" (token-MULTIPLICACION (string->symbol lexeme))]
+   ["/" (token-DIVISION (string->symbol lexeme))]
+   ["+=" (token-SUMA_Y_ASIGNACION '+=)]
+   ["-=" (token-RESTA_Y_ASIGNACION '-=)]
+   ["*=" (token-MULTIPLICACION_Y_ASIGNACION '*=)]
+   ["/=" (token-DIVISION_Y_ASIGNACION '/=)]
+   ["%=" (token-MODULO_Y_ASIGNACION '%=)]
+   ["**=" (token-POTENCIA_Y_ASIGNACION '**=)]
+   ["//=" (token-DIVISION_ENTERA_Y_ASIGNACION '//=)]
+   ["**" (token-POTENCIA (string->symbol lexeme))]
+   ["(" (token-PARENTESISABRE lexeme)]
+   [")" (token-PARENTESISCIERRA lexeme)]
+   ["{" (token-LLAVEABRE lexeme)]
+   ["_" (token-MARCADOR_DE_VARIABLE lexeme)]
+   ["}" (token-LLAVECIERRA lexeme)]
+   ["[" (token-BRACKETABRE lexeme)]
+   ["]" (token-BRACKETCIERRA lexeme)]
+   ["?" (token-INTERROGACIONCIERRA lexeme)]
+   ["¿" (token-INTERROGACIONABRE lexeme)]
+   ["¡" (token-EXCLAMACIONABRE lexeme)]
+   ["!" (token-EXCLAMACIONCIERRA lexeme)]
+   ["\"" (token-DOBLECOMILLA lexeme)]
+   ["__init__" (token-INIT lexeme)]
+   ["__main__" (token-MAIN lexeme)]
+   ["__name__" (token-NAME lexeme)]
+   ["__doc__" (token-DOC lexeme)]
+   ["__file__" (token-FILE lexeme)]
+   ["__dict__" (token-DICT_ATRIBUTO lexeme)]
+   ["&" (token-SIGNO_AND (string->symbol lexeme))]
+   ["|" (token-SIGNO_OR (string->symbol lexeme))]
+   ["^" (token-SIGNO_XOR (string->symbol lexeme))]
+   ["'" (token-SIMPLECOMILLA lexeme)]
+   [":" (token-DOS_PUNTOS (string->symbol lexeme))]
+   ["," (token-COMA (string->symbol lexeme))]
+   [(:: (:* "-") (:+ digit)) (token-ENTERO (string->number lexeme))]
+   [(:: (:* "-") (:+ digit) (:* (:: #\. (:+ digit) ))) (token-REAL (string->number lexeme))]
+   [(:: (:* "-") (:+ digit) (:* (:: #\. (:+ digit) )) (:* (:: (:: #\E (:* "-") ))) (:+ digit) ) (token-REAL (string->number lexeme))] ;detecta numeros negativos
+   ["False" (token-FALSE 'False)]
+   ["None" (token-NONE 'None)]
+   ["True" (token-TRUE 'True)]
+   ["and" (token-AND 'and)]
+   ["as" (token-AS 'as)]
+   ["assert" (token-ASSERT 'assert)]
+   ["async" (token-ASYNC 'async)]
+   ["await" (token-AWAIT 'await)]
+   ["break" (token-BREAK 'break)]
+   ["class" (token-CLASS 'class)]
+   ["continue" (token-CONTINUE 'continue)]
+   ["def" (token-DEF 'def)]
+   ["del" (token-DEL 'del)]
+   ["elif" (token-ELIF 'elif)]
+   ["else" (token-ELSE 'else)]
+   ["except" (token-EXCEPT 'except)]
+   ["finally" (token-FINALLY 'finally)]
+   ["for" (token-FOR 'for)]
+   ["from" (token-FROM 'from)]
+   ["global" (token-GLOBAL 'global)]
+   ["if" (token-IF 'if)]
+   ["import" (token-IMPORT 'import)]
+   ["in" (token-IN 'in)]
+   ["is" (token-IS 'is)]
+   ["lambda" (token-LAMBDA 'lambda)]
+   ["nonlocal" (token-NONLOCAL 'nonlocal)]
+   ["not" (token-NOT 'not)]
+   ["or" (token-OR 'or)]
+   ["pass" (token-PASS 'pass)]
+   ["raise" (token-RAISE 'raise)]
+   ["return" (token-RETURN 'return)]
+   ["try" (token-TRY 'try)]
+   ["while" (token-WHILE 'while)]
+   ["with" (token-WITH 'with)]
+   ["yield" (token-YIELD 'yield)]
+   ["//" (token-DIVISION_ENTERA '//)]
+   ["%" (token-MODULO '%)]
+   ["==" (token-IGUAL_A '==)]
+   ["!=" (token-NO_ES_IGUAL_A '!=)]
+   [">" (token-MAYOR_QUE '>)]
+   ["<" (token-MENOR_QUE '<)]
+   [">=" (token-MAYOR_O_IGUAL_A '>=)]
+   ["<=" (token-MENOR_O_IGUAL_A '<=)]
+   ["bytearray" (token-BYTEARRAY 'bytearray)]
+   ["bytes" (token-BYTES 'bytes)]
+   ["complex" (token-COMPLEX 'complex)]
+   ["dict" (token-DICT 'dict)]
+   ["frozenset" (token-FROZENSET 'frozenset)]
+   ["list" (token-LIST 'list)]
+   ["set" (token-SET 'set)]
+   ["tuple" (token-TUPLE 'tuple)]
+   ["range" (token-RANGE 'range)]
+   ["self" (token-SELF 'self)]
+   ["super" (token-SUPER 'super)]
+   ["str" (token-STR 'str)]
+   ["int" (token-INT 'int)]
+   ["float" (token-FLOAT 'float)]
+   ["bool" (token-BOOL 'bool)]
+   ["open" (token-OPEN 'open)]
+   ["input" (token-INPUT 'input)]
+   ["len" (token-LEN 'len)]
+   ["enum" (token-ENUM 'enum)]
+   ["property" (token-PROPERTY 'property)]
+   ["slice" (token-SLICE 'slice)]
+   ["format" (token-FORMAT 'format)]
+   ["format_map" (token-FORMAT_MAP 'format_map)]
+   ["get" (token-GET 'get)]
+   ["getattr" (token-GETATTR 'getattr)]
+   ["hasattr" (token-HASATTR 'hasattr)]
+   ["hex" (token-HEX 'hex)]
+   ["id" (token-ID 'id)]
+   ["index" (token-INDEX 'index)]
+   ["insert" (token-INSERT 'insert)]
+   ["items" (token-ITEMS 'items)]
+   ["keys" (token-KEYS 'keys)]
+   ["join" (token-JOIN 'join)]
+   ["lower" (token-LOWER 'lower)]
+   ["lstrip" (token-LSTRIP 'lstrip)]
+   ["pop" (token-POP 'pop)]
+   ["print" (token-PRINT 'print)]
+   ["popitem" (token-POPITEM 'popitem)]
+   ["replace" (token-REPLACE 'replace)]
+   ["rsplit" (token-RSPLIT 'rsplit)]
+   ["split" (token-SPLIT 'split)]
+   ["startswith" (token-STARTSWITH 'startswith)]
+   ["strip" (token-STRIP 'strip)]
+   ["swapcase" (token-SWAPCASE 'swapcase)]
+   ["title" (token-TITLE 'title)]
+   ["upper" (token-UPPER 'upper)]
+   ["values" (token-VALUES 'values)]
+   ["zfill" (token-ZFILL 'zfill)]
+   [(concatenation "#" (repetition 0 +inf.0 (union (char-range #\a #\z) (char-range #\A #\Z) (char-range #\0 #\9) #\space #\ñ #\Ñ #\á #\é #\í #\ó #\ú #\Á #\É #\Í #\Ó #\Ú any-char))) (token-COMENTARIO (string->symbol lexeme))]
+   [(concatenation (union (char-range #\a #\z) (char-range #\A #\Z)) (repetition 0 +inf.0 (union (char-range #\a #\z) (char-range #\A #\Z) (char-range #\0 #\9) (:+ "_")))) (token-VARIABLE (string->symbol lexeme))]
+   ;Si no encuentra nada en el alfabeto que haga match, corre el siguiente token de error
+   [(:: any-char) (token-ERROR (string->symbol lexeme))])
+)
+
+(provide value-tokens op-tokens lexerAritmetico)
