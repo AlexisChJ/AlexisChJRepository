@@ -20,12 +20,12 @@ Welcome to my personal portfolio of software projects! This repository gathers m
 
 Here are some highlights from this repository and external projects:
 
--**Color Identifier App** – iOS app that helps colorblind users identify colors using photo-based RGB matching.
--**HackMX5 – 3rd Place** – Automotive support chatbot for BYD, built with a web-based UI.
--**Twitter Bot Detection** – ML analysis of bot interaction on Twitter during the COVID-19 pandemic.
--**Python Syntax Analyzer** – Racket-based analyzer using lexical categories, regex, and HTML output.
--**Indoor Navigation App** – Swift-based app designed during UP iOS Hackathon 2023.
--**Network Design Project** – Simulated infrastructure for a 600+ user academic event using Cisco Packet Tracer.
+- **Color Identifier App** – iOS app that helps colorblind users identify colors using photo-based RGB matching.
+- **HackMX5 – 3rd Place** – Automotive support chatbot for BYD, built with a web-based UI.
+- **Twitter Bot Detection** – ML analysis of bot interaction on Twitter during the COVID-19 pandemic.
+- **Python Syntax Analyzer** – Racket-based analyzer using lexical categories, regex, and HTML output.
+- **Indoor Navigation App** – Swift-based app designed during UP iOS Hackathon 2023.
+- **Network Design Project** – Simulated infrastructure for a 600+ user academic event using Cisco Packet Tracer.
 
 ## 🧠 Skills & Technologies
 
