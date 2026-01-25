@@ -2,7 +2,7 @@
 
 Welcome to my personal portfolio of software projects! This repository gathers many of the applications, prjects, and hackathon entries I’ve developed throughout my journey in computer science, and mobile development. I am a computer science  student in my sixth semester at the Tecnologíco de Monterrey Campus Ciudad de México. At the moment, I have been 7 years in FIRST (3 as student and 4 as mentor), and now I am part of the BoC (Board of Coaches) in the FIRST Robotics Competition team Nautilus 4010 and FTC team Nautilus 21735. In FIRST I have travelled to national and international competitions representing Mexico and PrepaTec. Also, I worked creating websites and maintaining them, have coordinated and leading those projects. 
 
-## 📁 Repository Content
+## Repository Content
 
 - `AlgorythmsProject-2024/` – Advanced algorithms project developed for the "Data Structures and Algorithms" course, featuring optimized implementations like Strassen’s algorithm and boolean matrix multiplication in Python.
 - `Analytics-SemanaTec/` – Machine learning and data science experiments conducted during the SemanaTec course, including clustering with K-means, data visualization, and bot detection on Twitter data during the COVID-19 pandemic.
@@ -18,18 +18,19 @@ Welcome to my personal portfolio of software projects! This repository gathers m
 - `AndroidAppDev-2025/` – Android applications (2) developed in Java, focusing on core mobile development concepts, UI components, and application lifecycle management. Work done as projects in the California State Univeristy East Bay.
 - `MoviesApp-2025/` – Responsive movie web application deployed on Vercel, allowing users to browse and explore movie information.  https://movies-alexis.vercel.app
 
-## 🌟 Notable Projects
+## Notable Projects
 
 Here are some highlights from this repository and external projects:
 
-- **Color Identifier App** – iOS app that helps colorblind users identify colors using photo-based RGB matching.
+- **Color Identifier App** – iOS app that helps colorblind users identify colors using photo-based RGB matching. iOS app submited for the Apple Swift Student Challenge 2023.
 - **HackMX5 – 3rd Place** – Automotive support chatbot for BYD, built with a web-based UI.
+- **HackMX6 – Honorable Mention** – Honorable Mention on the Oracle project, in which we developed a platform using Apex to help kids have access to STEM.
 - **Twitter Bot Detection** – ML analysis of bot interaction on Twitter during the COVID-19 pandemic.
 - **Python Syntax Analyzer** – Racket-based analyzer using lexical categories, regex, and HTML output.
 - **Indoor Navigation App** – Swift-based app designed during UP iOS Hackathon 2023.
 - **Network Design Project** – Simulated infrastructure for a 600+ user academic event using Cisco Packet Tracer.
 
-## 🧠 Skills & Technologies
+## Skills & Technologies
 
 - **Languages:** Swift, Java, Python, C++, C#, JavaScript, PHP, Racket
 - **Frameworks & Libraries:** UIKit, SwiftUI, Firebase, React, Next.js, Tailwind CSS, Unity
